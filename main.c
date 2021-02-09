@@ -1,10 +1,13 @@
+#if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS )
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 // standard headers
 #include <omp.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <stdatomic.h>
 #include <immintrin.h>
 
 // opengl headers
@@ -19,6 +22,10 @@
 
 #if DEBUG_MODE >= 1
 #define NDEBUG
+#endif
+
+#ifdef _MSC_VER
+#define _Alignas(x) __declspec(align(x))
 #endif
 
 // external headers (these are not mine)
@@ -466,9 +473,9 @@ int main(int const argc, char **const argv)
         {
             for(int i = 1; i < argc; ++i)
             {
-                if (strncmp(argv[i], "--cache-result", sizeof "--cache-result") == 0)
+                if (strncmp(argv[i], "--cache-result", sizeof "--cache-result" - 1) == 0)
                 {
-                    char const *const value = argv[i] + sizeof "--cache-result";
+                    char const *const value = argv[i] + sizeof "--cache-result" - 1;
                     if (value[0] == '=' && value[0] != value[1] != '\0')
                     {
                         cache_result_path = value + 1;
