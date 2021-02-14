@@ -475,7 +475,7 @@ int main(int const argc, char **const argv)
             {
                 if (strncmp(argv[i], "--cache-result", sizeof "--cache-result" - 1) == 0)
                 {
-                    char const *const value = argv[i] + sizeof "--cache-result" - 1;
+	            char const *const value = argv[i] + sizeof "--cache-result" - 1;
                     if (value[0] == '=' && value[0] != value[1] != '\0')
                     {
                         cache_result_path = value + 1;
@@ -571,9 +571,9 @@ int main(int const argc, char **const argv)
         float const world_up[3] = { 0.0f, 1.0f, 0.0f };
 
         float across[3] = {
-            look[1] * world_up[2] - look[2] * world_up[1],
-            look[2] * world_up[0] - look[0] * world_up[2],
-            look[0] * world_up[1] - look[1] * world_up[0],
+                look[1] * world_up[2] - look[2] * world_up[1],
+                look[2] * world_up[0] - look[0] * world_up[2],
+                look[0] * world_up[1] - look[1] * world_up[0],
         };
 
         up[0] = across[1] * look[2] - across[2] * look[1];
@@ -597,8 +597,8 @@ int main(int const argc, char **const argv)
         SDL_PumpEvents();
         uint32_t const is_mouse_down = SDL_GetMouseState(NULL, NULL);
         bool const mouse_down[2] = {
-            (is_mouse_down & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0,
-            (is_mouse_down & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0
+                (is_mouse_down & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0,
+                (is_mouse_down & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0
         };
 
         int mouse_wheel_delta = 0;
@@ -606,16 +606,16 @@ int main(int const argc, char **const argv)
         {
             switch(event.type)
             {
-            case SDL_QUIT:
-            {
-                goto cleanup;
-            }
+                case SDL_QUIT:
+                {
+                    goto cleanup;
+                }
 
-            case SDL_MOUSEWHEEL:
-            {
-                mouse_wheel_delta = event.wheel.y;
-                break;
-            }
+                case SDL_MOUSEWHEEL:
+                {
+                    mouse_wheel_delta = event.wheel.y;
+                    break;
+                }
             }
         }
 
