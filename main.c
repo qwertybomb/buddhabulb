@@ -5,6 +5,7 @@
 // standard headers
 #include <omp.h>
 #include <math.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -427,6 +428,8 @@ static heatmap_image_uint8_t generate_heatmap_image(char const *const filepath,
     else
     {
         file_did_not_exist:;
+        clock_t const start_clock = clock();
+
         int const max_threads = omp_get_max_threads();
         heatmap_image_t const heatmap =
             allocate_aligned(sizeof *heatmap * IMAGE_DEPTH * max_threads +
@@ -448,12 +451,16 @@ static heatmap_image_uint8_t generate_heatmap_image(char const *const filepath,
         // transform the heatmap so it is now an image not a heatmap
         heatmap_image_uint8_t const heatmap_image = transform_heatmap(heatmap, max_value[0]);
 
+        clock_t const end_clock = clock();
+        printf("it took %f seconds\n", (double)(end_clock - start_clock) / CLOCKS_PER_SEC);
+
         if (filepath != NULL)
         {
             FILE *const file = fopen(filepath, "wb");
             fwrite(heatmap_image, 1, sizeof *heatmap_image * IMAGE_DEPTH, file);
             fclose(file);
         }
+
 
         return heatmap_image;
     }
